@@ -24,7 +24,6 @@ abstract class NoteDto implements _$NoteDto {
 
   factory NoteDto.fromDomain(Note note) {
     return NoteDto(
-      serverTimeStamp: FieldValue.serverTimestamp(),
       id: note.id.getOrCrash(),
       body: note.body.getOrCrash(),
       color: note.color.getOrCrash().value,
@@ -32,6 +31,7 @@ abstract class NoteDto implements _$NoteDto {
           .getOrCrash()
           .map((todoItem) => TodoItemDto.fromDomain(todoItem))
           .asList(),
+      serverTimeStamp: FieldValue.serverTimestamp(),
     );
   }
 
@@ -53,11 +53,11 @@ abstract class NoteDto implements _$NoteDto {
   }
 }
 
-class ServerTimeStampConverter implements JsonConverter<FieldValue, Object> {
+class ServerTimeStampConverter implements JsonConverter<FieldValue, Object?> {
   const ServerTimeStampConverter();
 
   @override
-  FieldValue fromJson(Object json) {
+  FieldValue fromJson(Object? json) {
     return FieldValue.serverTimestamp();
   }
 

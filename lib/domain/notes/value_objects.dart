@@ -11,7 +11,7 @@ class NoteBody extends ValueObject<String> {
   @override
   final Either<ValueFailure<String>, String> value;
 
-  static const maxLength = 1000;
+  static const int maxLength = 1000;
 
   factory NoteBody(String input) {
     assert(input != null);

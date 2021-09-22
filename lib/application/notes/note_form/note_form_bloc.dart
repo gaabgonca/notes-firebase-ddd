@@ -64,7 +64,7 @@ class NoteFormBloc extends Bloc<NoteFormEvent, NoteFormState> {
               ? await _noteRepository.update(state.note)
               : await _noteRepository.create(state.note);
         } else {
-          failureOrSuccess = left(NoteFailure.unexpected());
+          failureOrSuccess = left(const NoteFailure.unexpected());
         }
 
         yield state.copyWith(

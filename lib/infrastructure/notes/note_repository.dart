@@ -33,7 +33,7 @@ class NoteRepository implements INoteRepository {
       if (e is FirebaseException && e.message!.contains('permisson-denied')) {
         return left(const NoteFailure.insufficientPermission());
       } else {
-        // log.error(e.toString());
+        print(e.toString());
         return left(const NoteFailure.unexpected());
       }
     });
@@ -55,7 +55,8 @@ class NoteRepository implements INoteRepository {
       if (e is FirebaseException && e.message!.contains('permisson-denied')) {
         return left(const NoteFailure.insufficientPermission());
       } else {
-        // log.error(e.toString());
+        print('error on watch uncompleted ');
+        print(e.toString());
         return left(const NoteFailure.unexpected());
       }
     });
@@ -73,6 +74,8 @@ class NoteRepository implements INoteRepository {
       if (e.message!.contains('permission-denied')) {
         return left(const NoteFailure.insufficientPermission());
       } else {
+        print('error on create');
+        print(e.toString());
         return left(const NoteFailure.unexpected());
       }
     }
@@ -92,6 +95,8 @@ class NoteRepository implements INoteRepository {
       } else if (e.message!.contains('not-found')) {
         return left(const NoteFailure.unableToUpdate());
       } else {
+        print('error on update ');
+        print(e.toString());
         return left(const NoteFailure.unexpected());
       }
     }
@@ -111,6 +116,8 @@ class NoteRepository implements INoteRepository {
       } else if (e.message!.contains('not-found')) {
         return left(const NoteFailure.unableToUpdate());
       } else {
+        print('error on delete');
+        print(e.toString());
         return left(const NoteFailure.unexpected());
       }
     }
