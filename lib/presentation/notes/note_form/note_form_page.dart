@@ -5,8 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_firebase_ddd/application/notes/note_form/note_form_bloc.dart';
 import 'package:notes_firebase_ddd/domain/notes/note.dart';
 import 'package:notes_firebase_ddd/injection.dart';
+import 'package:notes_firebase_ddd/presentation/notes/note_form/misc/todo_item_presentation_classes.dart';
 import 'package:notes_firebase_ddd/presentation/notes/note_form/widgets/body_field_widget.dart';
+import 'package:notes_firebase_ddd/presentation/notes/note_form/widgets/color_field_widget.dart';
+import 'package:notes_firebase_ddd/presentation/notes/note_form/widgets/todo_list_widget.dart';
+import 'package:notes_firebase_ddd/presentation/notes/note_form/widgets/todo_tile_widget.dart';
 import 'package:notes_firebase_ddd/presentation/routes/router.gr.dart';
+import 'package:provider/provider.dart';
 
 class NoteFormPage extends StatelessWidget {
   final Note? editingNote;
@@ -62,7 +67,6 @@ class SavingInProgressOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isSaving = false;
     return IgnorePointer(
       ignoring: !isSaving,
       child: AnimatedContainer(
@@ -119,17 +123,23 @@ class NoteFormPageScaffold extends StatelessWidget {
           buildWhen: (previous, current) =>
               previous.showErrorMessages != current.showErrorMessages,
           builder: (context, state) {
-            return Form(
-                autovalidateMode: state.showErrorMessages
-                    ? AutovalidateMode.always
-                    : AutovalidateMode.disabled,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const BodyField(),
-                    ],
-                  ),
-                ));
+            return ChangeNotifierProvider(
+              create: (_) => FormTodos(),
+              child: Form(
+                  autovalidateMode: state.showErrorMessages
+                      ? AutovalidateMode.always
+                      : AutovalidateMode.disabled,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: const [
+                        BodyField(),
+                        ColorField(),
+                        TodoList(),
+                        AddTodoTile(),
+                      ],
+                    ),
+                  )),
+            );
           },
         ));
   }
